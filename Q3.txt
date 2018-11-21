@@ -1,0 +1,7 @@
+import pandas as pd
+
+data = pd.read_csv("E:/assignment-1.1/data/rainfall_india_1901-2015.csv",sep=',')
+data.fillna(0)
+dk = data[data.SUBDIVISION.str.contains('KARNATAKA$')].filter(items = ["SUBDIVISION","ANNUAL"])
+dk = dk.groupby(["SUBDIVISION"]).mean()
+dk.sort_values(axis=0,by=["ANNUAL"],ascending=False)

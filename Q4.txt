@@ -1,0 +1,13 @@
+import pandas as pd
+
+data = pd.read_csv("E:/assignment-1.1/data/rainfall_india_1901-2015.csv",sep=',')
+data.fillna(0)
+col = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"}
+
+df1 = pd.DataFrame()
+
+df1 = data[data.SUBDIVISION=='KERALA']
+df1 = data.filter(items = col)
+mean_val = df1.mean()
+sorted_mean_values = mean_val.sort_values(axis = 0,ascending=False)
+print("Top 3 months: ",sorted_mean_values.index[0],sorted_mean_values.index[1],sorted_mean_values.index[2])

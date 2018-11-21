@@ -1,0 +1,11 @@
+import csv
+import json
+
+csvfile = open('rainfall_india_1901-2015.csv','r')
+jsonfile = open('rainfall_india_1901-2015.jl','w')
+
+fieldnames = ("SUBDIVISION","YEAR","JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC","ANNUAL")
+reader = csv.DictReader(csvfile,fieldnames)
+for row in reader:
+    json.dump(row,jsonfile)
+    jsonfile.write('\n')
