@@ -1,0 +1,82 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Nov 24 22:04:41 2018
+
+@author: tanya273
+"""
+
+import csv
+import json
+#import jsonlines
+
+## question 1
+csvfile = open('E:/assignment-1.1/rainfall_india_1901-2015.csv','r')
+jsonfile = open('rainfall_india_1901-2015.jsonl','w')
+data = []
+fieldnames = ("SUBDIVISION","YEAR","JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC","ANNUAL")
+reader = csv.DictReader(csvfile,fieldnames)
+for row in reader:
+    json.dump(row,jsonfile)
+    jsonfile.write('\n')
+    
+with open("rainfall_india_1901-2015.jsonl") as f:
+    for line in f:
+        data.append(json.loads(line))
+        
+## cleaning NA with 0          
+for res in data:
+    for key in res.items():
+        if(res[key]=="NA"):
+            res[key]=0
+        
+
+## question 2
+ans2 = []    
+for i in range(0,len(data)):
+    if data[i]['SUBDIVISION']=="COASTAL KARNATAKA":
+        ans2.append(data[i])
+        
+sum2 = 0
+for i in range(0,len(ans2)):
+    sum2 = sum2 + float(ans2[i]["ANNUAL"])
+
+print("average annual rainfall of 'COASTAL KARNATAKA' subdivision: ",sum2/len(ans2))
+
+## question 3
+ans3_1 = [ x for x in data if "COASTAL KARNATAKA" in x["SUBDIVISION"]]
+sum3_1 = 0
+for i in range(0,len(ans3_1)):
+    sum3_1 = sum3_1 + float(ans3_1[i]["ANNUAL"])
+avg3_1 = sum3_1/len(ans3_1)
+
+ans3_2 = [ x for x in data if "NORTH INTERIOR KARNATAKA" in x["SUBDIVISION"]]
+sum3_2 = 0
+for i in range(0,len(ans3_2)):
+    sum3_2 = sum3_2 + float(ans3_2[i]["ANNUAL"])
+avg3_2 = sum3_2/len(ans3_2)
+    
+ans3_3 = [ x for x in data if "SOUTH INTERIOR KARNATAKA" in x["SUBDIVISION"]]
+sum3_3 = 0
+for i in range(0,len(ans3_3)):
+    sum3_3 = sum3_3 + float(ans3_3[i]["ANNUAL"])
+avg3_3 = sum3_3/len(ans3_3)
+di = {"COASTAL KARNATAKA":avg3_1,"NORTH INTERIOR KARNATAKA":avg3_2,"SOUTH INTERIOR KARNATAKA":avg3_3}
+
+print("Subdivisions of KARNATAKA state in descending order of their average annual rainfall:\n",sorted(di, key=di.get,reverse=True))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
